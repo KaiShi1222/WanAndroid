@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home"
+        android:title="@string/bottom_navigation_home"
+        android:icon="@drawable/home"/>
+
+    <item
+        android:id="@+id/hierarchy"
+        android:title="@string/bottom_navigation_hierarchy"
+        android:icon="@drawable/hierarchy"/>
+
+    <item
+        android:id="@+id/wechat"
+        android:title="@string/bottom_navigation_wechat"
+        android:icon="@drawable/wechat"/>
+
+    <item
+        android:id="@+id/project"
+        android:title="@string/bottom_navigation_project"
+        android:icon="@drawable/direction"/>
+
+    <item
+        android:id="@+id/myself"
+        android:title="@string/bottom_navigation_myself"
+        android:icon="@drawable/myself"/>
+</menu>
+
