@@ -12,7 +12,7 @@ public interface HomeContract {
 
     interface IHomeView extends IView {
         void showBannerData(List<BannerItemData> bannerItemData);
-        void showArticles(HomepageArticles homepageArticles);
+        void showArticles(HomepageArticles homepageArticles, boolean isRefresh);
     }
 
     // 需要写明 <V extends IView> and <V>  ???????????

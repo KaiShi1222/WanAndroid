@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.study.luoluo.wanandroid.R;
 import com.study.luoluo.wanandroid.base.fragment.BaseFragment;
 import com.study.luoluo.wanandroid.module.homepage.BannerImageLoader;
@@ -32,6 +33,7 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
     private View root;
     private HomeAdapter homeAdapter;
     private Banner header;
+    private int pageNumber = 0;
 
     @Nullable
     @Override
@@ -45,7 +47,7 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initRecycleView();
+        initView();
         presenter.getHomepageData();
     }
 
@@ -54,7 +56,7 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
         return R.layout.fragment_home;
     }
 
-    private void initRecycleView() {
+    private void initView() {
         RecyclerView recyclerView = root.findViewById(R.id.rv_home);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
@@ -66,6 +68,16 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
         // BaseQuickAdapter do it
         homeAdapter.setHeaderView(header);
         recyclerView.setAdapter(homeAdapter);
+        SmartRefreshLayout smartRefreshLayout = root.findViewById(R.id.srl_home);
+        smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
+            presenter.getHomepageData();
+            refreshLayout.finishRefresh(2000);
+        });
+        smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            pageNumber++;
+            presenter.getArticle(pageNumber);
+            refreshLayout.finishLoadMore(2000);
+        });
     }
 
     @Override
@@ -88,8 +100,12 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
     }
 
     @Override
-    public void showArticles(HomepageArticles homepageArticles) {
-        homeAdapter.addData(homepageArticles.getDatas());
+    public void showArticles(HomepageArticles homepageArticles, boolean isRefresh) {
+        if (isRefresh) {
+            homeAdapter.replaceData(homepageArticles.getDatas());
+        } else {
+            homeAdapter.addData(homepageArticles.getDatas());
+        }
     }
 
     @Override

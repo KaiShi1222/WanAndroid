@@ -27,6 +27,8 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
 
     private static int TOP_ARTICLES_POSITION = 0;
 
+    private boolean isRefresh = false;
+
     // it can use dagger instead
     public HomepagePresenter(HomeContract.IHomeView view) {
         this.view = view;
@@ -70,11 +72,33 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
 
     @Override
     public void getArticle(int pageNumber) {
+        isRefresh = false;
+        addDisposable(service.getHomepageArticle(pageNumber)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .filter(homepageArticlesBaseResponse -> view != null)
+                .subscribeWith(new ResourceObserver<BaseResponse<HomepageArticles>>() {
+                    @Override
+                    public void onNext(BaseResponse<HomepageArticles> homepageArticlesBaseResponse) {
+                        view.showArticles(homepageArticlesBaseResponse.getData(), isRefresh);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                }));
 
     }
 
     @Override
     public void getHomepageData() {
+        isRefresh = true;
         getBannerData();
         // 首页文章由置顶文章和首页文章列表共同组成
         addDisposable(Observable.zip(service.getTopArticles(), service.getHomepageArticle(currentArticlePage),
@@ -88,7 +112,7 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
                 .subscribeWith(new ResourceObserver<BaseResponse<HomepageArticles>>() {
                     @Override
                     public void onNext(BaseResponse<HomepageArticles> homepageArticlesBaseResponse) {
-                       view.showArticles(homepageArticlesBaseResponse.getData());
+                       view.showArticles(homepageArticlesBaseResponse.getData(), isRefresh);
                     }
 
                     @Override
