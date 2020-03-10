@@ -34,7 +34,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_toEndOf="@id/tv_author"
                 android:visibility="gone"
-                android:text="@string/top_article"
                 android:textColor="@android:color/holo_red_dark"
                 tools:text="@string/top_article" />
 
@@ -58,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
-                tools:text="每日一问 Android有个GestureDetector很好用？那么你知道它内部是如何实现的吗？" />
+                tools:text="每日一问Android有个GestureDetector很好用？那么你知道它内部是如何实现的吗？" />
 
             <TextView
                 android:id="@+id/tv_chapter_name"

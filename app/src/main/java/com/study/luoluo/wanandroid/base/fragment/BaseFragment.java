@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.study.luoluo.wanandroid.base.presenter.IPresenter;
-import com.study.luoluo.wanandroid.base.IView;
-
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.study.luoluo.wanandroid.base.IView;
+import com.study.luoluo.wanandroid.base.presenter.IPresenter;
 /**
  *  All fragments should extend this fragment. It make the view hold the presenter.
  *  And the concrete fragment should accomplish itself layout and logic
@@ -17,15 +16,15 @@ import androidx.fragment.app.Fragment;
 public abstract class BaseFragment<T extends IPresenter> extends Fragment implements IView {
 
     protected T presenter;
+    private View root;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(getLayoutId(), container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        root = inflater.inflate(getLayoutId(), container, false);
+        return root;
     }
 
     public abstract int getLayoutId();
-
 
     @Override
     public void setPresenter(IPresenter presenter) {

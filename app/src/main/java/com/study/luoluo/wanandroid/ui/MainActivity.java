@@ -9,6 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.study.luoluo.wanandroid.R;
 import com.study.luoluo.wanandroid.base.BaseActivity;
 import com.study.luoluo.wanandroid.module.homepage.ui.HomeFragment;
+import com.study.luoluo.wanandroid.module.knowledge.ui.KnowledgeFragment;
 import com.study.luoluo.wanandroid.ui.constant.Constant;
 
 import java.util.ArrayList;
@@ -46,16 +47,13 @@ public class MainActivity extends BaseActivity {
             fragments.add(new WeChatFragment());
             fragments.add(new ProjectsFragment());
             fragments.add(new MyselfFragment());
-            Log.d("luoluo", "create fragment");
         }
         // To remove bar title named wanAndroid
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
-
         showFragment(currentFragmentIndex);
-        Log.d("luoluo", "show home fragment");
     }
 
     @Override

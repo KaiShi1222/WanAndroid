@@ -1,14 +1,11 @@
 package com.study.luoluo.wanandroid.module.homepage.presenter;
 
-import android.util.Log;
-
 import com.study.luoluo.wanandroid.base.presenter.BasePresenter;
 import com.study.luoluo.wanandroid.core.APIService;
 import com.study.luoluo.wanandroid.core.network.BaseResponse;
 import com.study.luoluo.wanandroid.core.network.RetrofitClient;
 import com.study.luoluo.wanandroid.module.homepage.bean.BannerItemData;
 import com.study.luoluo.wanandroid.module.homepage.bean.HomepageArticles;
-import com.study.luoluo.wanandroid.module.homepage.bean.TopArticleItem;
 import com.study.luoluo.wanandroid.module.homepage.contract.HomeContract;
 
 import java.util.List;
@@ -22,8 +19,6 @@ import io.reactivex.schedulers.Schedulers;
 public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> implements HomeContract.IHomePresenter {
 
     private HomeContract.IHomeView view;
-
-    private int currentArticlePage = 0;
 
     private static int TOP_ARTICLES_POSITION = 0;
 
@@ -62,12 +57,6 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
 
     @Override
     public void getTopArticle() {
-//        addDisposable(RetrofitClient.getInstance()
-//        .init()
-//        .getHomepageArticle(currentArticlePage)
-//        .subscribeOn(Schedulers.io())
-//        .observeOn(AndroidSchedulers.mainThread())
-//        .filter(listBaseResponse -> view != null));
     }
 
     @Override
@@ -101,6 +90,7 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
         isRefresh = true;
         getBannerData();
         // 首页文章由置顶文章和首页文章列表共同组成
+        int currentArticlePage = 0;
         addDisposable(Observable.zip(service.getTopArticles(), service.getHomepageArticle(currentArticlePage),
                 (topArticles, homepageArticle) -> {
                     homepageArticle.getData().getDatas().addAll(TOP_ARTICLES_POSITION, topArticles.getData());
@@ -112,7 +102,7 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
                 .subscribeWith(new ResourceObserver<BaseResponse<HomepageArticles>>() {
                     @Override
                     public void onNext(BaseResponse<HomepageArticles> homepageArticlesBaseResponse) {
-                       view.showArticles(homepageArticlesBaseResponse.getData(), isRefresh);
+                        view.showArticles(homepageArticlesBaseResponse.getData(), isRefresh);
                     }
 
                     @Override
