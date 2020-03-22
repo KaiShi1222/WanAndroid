@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.Fragment;
 
+import com.study.luoluo.wanandroid.R;
 import com.study.luoluo.wanandroid.base.IView;
 import com.study.luoluo.wanandroid.base.presenter.IPresenter;
 /**
@@ -17,6 +19,8 @@ public abstract class BaseFragment<T extends IPresenter> extends Fragment implem
 
     protected T presenter;
     private View root;
+    private ViewGroup parent;
+    private ContentLoadingProgressBar loading;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -33,7 +37,19 @@ public abstract class BaseFragment<T extends IPresenter> extends Fragment implem
 
     @Override
     public void showLoading() {
+        if (root != null) {
+            parent = (ViewGroup) root.getParent();
+            LayoutInflater.from(getContext()).inflate(R.layout.loading, parent, true);
+            loading = parent.findViewById(R.id.content_loading);
+            loading.setVisibility(View.VISIBLE);
+        }
+    }
 
+    @Override
+    public void hideLoading() {
+        if (loading != null && loading.getVisibility() == View.VISIBLE) {
+            loading.hide();
+        }
     }
 
     @Override

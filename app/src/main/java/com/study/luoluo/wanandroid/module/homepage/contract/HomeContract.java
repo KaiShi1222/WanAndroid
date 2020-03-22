@@ -18,8 +18,7 @@ public interface HomeContract {
     // 需要写明 <V extends IView> and <V>  ???????????
     interface IHomePresenter extends IPresenter<IHomeView> {
         void getBannerData();
-        void getTopArticle();
         void getArticle(int pageNumber);
-        void getHomepageData();
+        void getHomepageData(boolean isRefresh);
     }
 }

@@ -45,11 +45,6 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
     }
 
     @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
     public void showKnowledgeTreeData(List<KnowledgeTreeData> data, boolean isRefresh) {
         if (isRefresh) {
             knowledgeAdapter.replaceData(data);

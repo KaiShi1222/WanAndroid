@@ -25,6 +25,9 @@ public class KnowledgePresenter extends BasePresenter<KnowledgeContract.IKnowled
 
     @Override
     public void getKnowledgeTreeData(final boolean isRefresh) {
+        if (!isRefresh) {
+            view.showLoading();
+        }
         addDisposable(service.getKnowledgeTreeData()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -37,12 +40,12 @@ public class KnowledgePresenter extends BasePresenter<KnowledgeContract.IKnowled
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.showError("");
                     }
 
                     @Override
                     public void onComplete() {
-
+                        view.hideLoading();
                     }
                 }));
     }

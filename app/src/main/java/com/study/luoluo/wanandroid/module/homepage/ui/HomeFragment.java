@@ -48,7 +48,7 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        presenter.getHomepageData();
+        presenter.getHomepageData(false);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
         recyclerView.setAdapter(homeAdapter);
         SmartRefreshLayout smartRefreshLayout = root.findViewById(R.id.srl_home);
         smartRefreshLayout.setOnRefreshListener(refreshLayout -> {
-            presenter.getHomepageData();
+            presenter.getHomepageData(true);
             refreshLayout.finishRefresh(2000);
         });
         smartRefreshLayout.setOnLoadMoreListener(refreshLayout -> {
@@ -113,8 +113,4 @@ public class HomeFragment extends BaseFragment<HomepagePresenter> implements Hom
         super.onDestroy();
     }
 
-    @Override
-    public void hideLoading() {
-
-    }
 }

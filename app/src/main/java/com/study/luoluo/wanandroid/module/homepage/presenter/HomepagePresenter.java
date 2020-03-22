@@ -22,7 +22,7 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
 
     private static int TOP_ARTICLES_POSITION = 0;
 
-    private boolean isRefresh = false;
+//    private boolean isRefresh = false;
 
     // it can use dagger instead
     public HomepagePresenter(HomeContract.IHomeView view) {
@@ -56,12 +56,7 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
     }
 
     @Override
-    public void getTopArticle() {
-    }
-
-    @Override
     public void getArticle(int pageNumber) {
-        isRefresh = false;
         addDisposable(service.getHomepageArticle(pageNumber)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -69,7 +64,7 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
                 .subscribeWith(new ResourceObserver<BaseResponse<HomepageArticles>>() {
                     @Override
                     public void onNext(BaseResponse<HomepageArticles> homepageArticlesBaseResponse) {
-                        view.showArticles(homepageArticlesBaseResponse.getData(), isRefresh);
+                        view.showArticles(homepageArticlesBaseResponse.getData(), false);
                     }
 
                     @Override
@@ -79,15 +74,17 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
 
                     @Override
                     public void onComplete() {
-
                     }
                 }));
 
     }
 
     @Override
-    public void getHomepageData() {
-        isRefresh = true;
+    public void getHomepageData(boolean isRefresh) {
+        if (!isRefresh) {
+            // no need to show content loading because ui has it.
+            view.showLoading();
+        }
         getBannerData();
         // 首页文章由置顶文章和首页文章列表共同组成
         int currentArticlePage = 0;
@@ -112,7 +109,7 @@ public class HomepagePresenter extends BasePresenter<HomeContract.IHomeView> imp
 
                     @Override
                     public void onComplete() {
-
+                        view.hideLoading();
                     }
                 }));
     }
