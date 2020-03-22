@@ -16,7 +16,9 @@
     <string name="bottom_navigation_myself">我的</string>
 
     <string name="homepage_favourite_description">This image shows article is collected or not</string>
+    <string name="splash_screen">Splash screen</string>
 
     <string name="top_article">置顶</string>
+
 
 </resources>
