@@ -1,5 +1,7 @@
 package com.study.luoluo.wanandroid.module.splash;
 
+import android.content.Context;
+
 import com.study.luoluo.wanandroid.base.IView;
 import com.study.luoluo.wanandroid.base.presenter.IPresenter;
 
@@ -10,6 +12,6 @@ public interface SplashContract {
     }
 
     interface SplashPresenter extends IPresenter<SplashView> {
-        void gotoHomePage();
+        void gotoHomePage(Context context);
     }
 }
