@@ -20,5 +20,8 @@
 
     <string name="top_article">置顶</string>
 
-
+    <string name="user_name_hint">请输入用户名</string>
+    <string name="user_password_hint">请输入密码</string>
+    <string name="login">登录</string>
+    <string name="sign_in">注册</string>
 </resources>

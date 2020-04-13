@@ -1,19 +1,24 @@
 package com.study.luoluo.wanandroid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.study.luoluo.wanandroid.R;
 import com.study.luoluo.wanandroid.base.BaseActivity;
 import com.study.luoluo.wanandroid.module.homepage.ui.HomeFragment;
 import com.study.luoluo.wanandroid.module.knowledge.ui.KnowledgeFragment;
+import com.study.luoluo.wanandroid.module.login.LoginActivity;
 import com.study.luoluo.wanandroid.ui.constant.Constant;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,7 +28,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private Fragment currentFragment = new HomeFragment();
@@ -54,6 +59,18 @@ public class MainActivity extends BaseActivity {
             actionBar.setDisplayShowTitleEnabled(false);
         }
         showFragment(currentFragmentIndex);
+        NavigationView navigationView = findViewById(R.id.main_nv);
+        View header = navigationView.getHeaderView(0);
+        TextView login = header.findViewById(R.id.tv_login);
+//        TextView login = findViewById(R.id.tv_login);
+        if (login != null) {
+            login.setOnClickListener(v -> {
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            });
+        }
+
+
     }
 
     @Override
@@ -85,6 +102,7 @@ public class MainActivity extends BaseActivity {
                 drawerLayout, toolbar, R.string.draw_layout_open, R.string.draw_layout_close);
         actionBarDrawerToggle.syncState();
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
+
     }
 
     private void initBottomNavigationView() {
@@ -122,5 +140,19 @@ public class MainActivity extends BaseActivity {
             }
             return true;
         });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        switch (id) {
+            case R.id.tv_login:
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }
