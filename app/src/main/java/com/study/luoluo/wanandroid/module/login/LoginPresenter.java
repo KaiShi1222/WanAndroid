@@ -1,8 +1,12 @@
 package com.study.luoluo.wanandroid.module.login;
 
-public class LoginPresenter implements LoginContract.LoginPresenter{
+import android.widget.Button;
+import android.widget.EditText;
+
+public class LoginPresenter implements LoginContract.LoginPresenter, LoginContract.UserInfoCheck {
 
     private LoginContract.LoginView view;
+    private Button listener;
 
     public LoginPresenter(LoginContract.LoginView view) {
         this.view = view;
@@ -10,11 +14,24 @@ public class LoginPresenter implements LoginContract.LoginPresenter{
 
     @Override
     public void login(String username, String password) {
-        view.loginSuccess();
+        if (allTextHasValue(listener, username, password)) {
+            view.loginSuccess();
+        } else {
+            view.loginFailed();
+        }
     }
 
     @Override
     public void signIn(String username, String password, String repeatPassword) {
 
+    }
+
+    @Override
+    public boolean allTextHasValue(Button listener, String userName, String password) {
+        return false;
+    }
+
+    public void setListener(Button button, EditText ... editTexts) {
+        listener = button;
     }
 }

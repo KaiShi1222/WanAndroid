@@ -45,6 +45,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.LoginVi
             // TODO
         });
         loginPresenter = new LoginPresenter(this);
+        loginPresenter.setListener(login, user, password);
     }
 
     @Override
